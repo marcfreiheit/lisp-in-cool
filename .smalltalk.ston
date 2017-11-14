@@ -1,0 +1,14 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'Lisp',
+      #directory : '',
+      #platforms : [ #squeak ]
+    }
+  ],
+  #testing : {
+    #coverage : {
+      #packages : [ 'Lisp.*' ]
+    }
+  }
+}
