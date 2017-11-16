@@ -29,6 +29,7 @@ namespace lisp_in_cool
                 if (char.IsWhiteSpace(character)) {
                     if (token != string.Empty) {
                         tokens.Add(token);
+                        token = string.Empty;
                     }
                     continue;
                 }
