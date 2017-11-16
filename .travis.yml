@@ -1,14 +1,7 @@
-language: smalltalk
-sudo: false
-
-# Select operating system(s)
-os:
-  - linux
-  - osx
-
-# Select compatible Smalltalk image(s)
-smalltalk:
-# sucks  - Squeak-trunk
-  - Squeak-5.1
-  - Squeak-5.0
-- Squeak-4.6
+dist: trusty
+sudo: required
+mono: none
+dotnet: 2.0.0
+script: echo success
+notifications:
+  email: false
