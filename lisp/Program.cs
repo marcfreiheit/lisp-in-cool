@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace lisp_in_cool
 {
@@ -16,21 +17,31 @@ namespace lisp_in_cool
             }
 
         }
-        public static List<string> parse(string input) {
-            var tokens = new List<string>();
+        public static List<Object> parse(string input) {
+            var tokens = new List<Object>();
             var token = string.Empty;
+            var expressionFlag = false;
 
             if (!input.StartsWith('(')) { throw new ArgumentException("Expressions need an opening parenthesis"); }
             if (!input.EndsWith(')')) { throw new ArgumentException("Expressions need a closing parenthesis"); }
 
-            foreach (var character in input)
+            // skip first and last parenthesis
+            foreach (var character in input.Substring(1, input.Length - 2))
             {
-                if (new List<Char>(new Char[] { '(', ')' }).Contains(character)) { continue; }
-                if (char.IsWhiteSpace(character)) {
-                    if (token != string.Empty) {
-                        tokens.Add(token);
-                        token = string.Empty;
-                    }
+                // if (new List<Char>(new Char[] { '(', ')' }).Contains(character)) { continue; }
+                if (character == '(') {
+                    expressionFlag = true;
+                } else if (character == ')') {
+                    expressionFlag = false;
+                    token += character;
+                    tokens.Add(parse(token));
+                    token = string.Empty;
+                    continue;
+                }
+
+                if (char.IsWhiteSpace(character) && token != string.Empty && !expressionFlag) {
+                    tokens.Add(token);
+                    token = string.Empty;
                     continue;
                 }
                 token += character;
@@ -43,31 +54,33 @@ namespace lisp_in_cool
 
         public static int doMagic(string input) {
             var tokenized = parse(input);
-            if (tokenized.Count == 3)
-            {
-                var op = tokenized[0];
-                var arg1 = tokenized[1];
-                var arg2 = tokenized[2];
-
-                if (op == "+") {
-                    return execute(arg1) + execute(arg2);
-                } else if (op == "-") {
-                    return execute(arg1) - execute(arg2);
-                } else if (op == "*") {
-                    return execute(arg1) * execute(arg2);
-                } else if (op == "/") {
-                    return execute(arg1) / execute(arg2);
-                }
-
-            } else {
-                throw new ArgumentException(string.Format("Invalid syntax. You have written {0} characters!", tokenized.Count));
-            }
-
-            return 0;
+            return execute(tokenized);;
         }
 
-        public static int execute(string argument) {
-            return int.Parse(argument);
+        public static int execute(object input) {
+            if (input.GetType() == typeof(string)) {
+                return int.Parse((string)input);
+            }
+
+            var tokenized = (List<object>)input;
+            
+            if (tokenized.Count != 3) { throw new ArgumentException(string.Format("Invalid syntax. You have written {0} characters!", tokenized.Count)); }
+            
+            var op = (string)tokenized[0];
+            var arg1 = tokenized[1];
+            var arg2 = tokenized[2];
+
+            if (op == "+") {
+                return execute(arg1) + execute(arg2);
+            } else if (op == "-") {
+                return execute(arg1) - execute(arg2);
+            } else if (op == "*") {
+                return execute(arg1) * execute(arg2);
+            } else if (op == "/") {
+                return execute(arg1) / execute(arg2);
+            }
+
+            throw new ArgumentException(string.Format("{0} is an invalid operator."), op);
         }
     }
 }

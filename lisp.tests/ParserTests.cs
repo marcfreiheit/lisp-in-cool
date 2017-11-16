@@ -11,11 +11,20 @@ namespace lisp.tests
         [InlineData("(- 5 3)", 2)]
         [InlineData("(* 5 2)", 10)]
         [InlineData("(/ 15 3)", 5)]
-        public void parseBasicBracketsTest(string input, int result)
+        public void BasicMathOperationTests(string input, int result)
         {
           var resultFromParser = LispParser.doMagic(input);
 
           Assert.True(resultFromParser == result, "That should work!");
+        }
+
+        [Theory]
+        [InlineData("(+ (+ 1 2) 3)", 6)]
+        public void NestedExpressionTests(string input, int result) {
+            var resultFromParser = LispParser.doMagic(input);
+            
+            Assert.True(resultFromParser == result, "That should work!");
+            // Assert.True(true);
         }
     }
 }
