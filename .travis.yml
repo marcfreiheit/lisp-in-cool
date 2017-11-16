@@ -2,6 +2,6 @@ dist: trusty
 sudo: required
 mono: none
 dotnet: 2.0.0
-script: echo success
+script: dotnet test ./lisp.tests/
 notifications:
   email: false
