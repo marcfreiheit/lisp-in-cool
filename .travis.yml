@@ -1,9 +1,13 @@
 dist: trusty
-sudo: required
 mono: none
-dotnet: 2.0.0
+dotnet: 1.0.1
+
 install:
   - dotnet restore
-script: dotnet test lisp.tests/
+
+script: 
+  - dotnet build
+  - dotnet test lisp.tests/
+
 notifications:
   email: false
