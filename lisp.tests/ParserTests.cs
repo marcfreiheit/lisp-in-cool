@@ -22,11 +22,23 @@ namespace lisp.tests
         [InlineData("(+ (+ 1 2) 3)", 6)]
         [InlineData("(* 5 (* 7 5))", 175)]
         [InlineData("(* (+ 5 5) (* 7 5))", 350)]
+        // [InlineData("(* (+ 5 (/ 50 5)) (* 7 (- 7 2)))", 350)] // not supported yet!
         public void NestedExpressionTests(string input, int result) {
             var resultFromParser = LispParser.doMagic(input);
             
             Assert.True(resultFromParser == result, "That should work!");
             // Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("x", 5)]
+        [InlineData("y", 15)]
+        public void SetTests(string identifier, int value) {
+            LispParser.doMagic(string.Format("(set! {0} {1})", identifier, value));
+            var resultFromParser1 = LispParser.doMagic(string.Format("(+ {0} 0)", identifier));
+            var resultFromParser2 = LispParser.doMagic(string.Format("(+ {0} 5)", identifier));
+            Assert.True(resultFromParser1 == value);
+            Assert.True(resultFromParser2 == (value + 5));
         }
     }
 }

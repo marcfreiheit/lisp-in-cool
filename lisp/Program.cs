@@ -6,6 +6,8 @@ namespace lisp_in_cool
 {
     public class LispParser 
     {
+        private static Dictionary<string, int?> variableStore = new Dictionary<string, int?>();
+
         static void Main(string[] args)
         {
             Console.Write(">>> ");
@@ -22,7 +24,7 @@ namespace lisp_in_cool
             var token = string.Empty;
             var expressionFlag = false;
 
-            if (!input.StartsWith('(')) { Console.WriteLine(input); throw new ArgumentException("Expressions need an opening parenthesis"); }
+            if (!input.StartsWith('(')) { throw new ArgumentException("Expressions need an opening parenthesis"); }
             if (!input.EndsWith(')')) { throw new ArgumentException("Expressions need a closing parenthesis"); }
 
             // skip first and last parenthesis
@@ -61,7 +63,14 @@ namespace lisp_in_cool
 
         public static int execute(object input) {
             if (input.GetType() == typeof(string)) {
-                return int.Parse((string)input);
+                var varibleValue = getVariable((string)input);
+
+                if(varibleValue == null) {
+                    return int.Parse((string)input);
+                 } else {
+                     return (int)varibleValue;
+                 } 
+                
             }
 
             var tokenized = (List<object>)input;
@@ -74,15 +83,26 @@ namespace lisp_in_cool
 
             if (op == "+") {
                 return execute(arg1) + execute(arg2);
+                
             } else if (op == "-") {
                 return execute(arg1) - execute(arg2);
             } else if (op == "*") {
                 return execute(arg1) * execute(arg2);
             } else if (op == "/") {
                 return execute(arg1) / execute(arg2);
+            } else if (op == "set!") {
+                return setVariable((string)arg1, execute(arg2));
             }
 
             throw new ArgumentException(string.Format("{0} is an invalid operator."), op);
+        }
+
+        public static int setVariable(string identifier, int value) {
+            variableStore.Add(identifier, value);
+            return value;
+        }
+        public static int? getVariable(string identifier) {
+            return variableStore.GetValueOrDefault(identifier, null);
         }
     }
 }
