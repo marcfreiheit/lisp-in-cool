@@ -8,11 +8,11 @@ namespace lisp_in_cool
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(">>> ");
+            Console.Write(">>> ");
             var input = Console.ReadLine();
             while (true) {
-                parse(input);
-                Console.WriteLine(">>> ");
+                Console.WriteLine(doMagic(input));
+                Console.Write(">>> ");
                 input = Console.ReadLine();
             }
 
@@ -22,7 +22,7 @@ namespace lisp_in_cool
             var token = string.Empty;
             var expressionFlag = false;
 
-            if (!input.StartsWith('(')) { throw new ArgumentException("Expressions need an opening parenthesis"); }
+            if (!input.StartsWith('(')) { Console.WriteLine(input); throw new ArgumentException("Expressions need an opening parenthesis"); }
             if (!input.EndsWith(')')) { throw new ArgumentException("Expressions need a closing parenthesis"); }
 
             // skip first and last parenthesis
@@ -43,11 +43,13 @@ namespace lisp_in_cool
                     tokens.Add(token);
                     token = string.Empty;
                     continue;
+                } else if (char.IsWhiteSpace(character) && token == string.Empty) {
+                    continue;
                 }
                 token += character;
             }
 
-            tokens.Add(token);
+            if (token != string.Empty) { tokens.Add(token); }
 
             return tokens;
         }

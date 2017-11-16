@@ -20,6 +20,8 @@ namespace lisp.tests
 
         [Theory]
         [InlineData("(+ (+ 1 2) 3)", 6)]
+        [InlineData("(* 5 (* 7 5))", 175)]
+        [InlineData("(* (+ 5 5) (* 7 5))", 350)]
         public void NestedExpressionTests(string input, int result) {
             var resultFromParser = LispParser.doMagic(input);
             
