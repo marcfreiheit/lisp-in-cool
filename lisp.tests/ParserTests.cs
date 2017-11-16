@@ -9,9 +9,9 @@ namespace lisp.tests
         [Fact]
         public void parseBasicBracketsTest()
         {
-          var result = LispParser.parse("(+ 1 5)");
+          var result = LispParser.doMagic("(+ 1 5)");
 
-          Assert.True(result, 6);
+          Assert.True(result == 6, "That should work!");
         }
     }
 }
