@@ -51,7 +51,14 @@ namespace lisp_in_cool
 
                 if (op == "+") {
                     return execute(arg1) + execute(arg2);
+                } else if (op == "-") {
+                    return execute(arg1) - execute(arg2);
+                } else if (op == "*") {
+                    return execute(arg1) * execute(arg2);
+                } else if (op == "/") {
+                    return execute(arg1) / execute(arg2);
                 }
+
             } else {
                 throw new ArgumentException(string.Format("Invalid syntax. You have written {0} characters!", tokenized.Count));
             }

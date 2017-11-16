@@ -6,12 +6,16 @@ namespace lisp.tests
 {
     public class ParserTests 
     {
-        [Fact]
-        public void parseBasicBracketsTest()
+        [Theory]
+        [InlineData("(+ 1 5)", 6)]
+        [InlineData("(- 5 3)", 2)]
+        [InlineData("(* 5 2)", 10)]
+        [InlineData("(/ 15 3)", 5)]
+        public void parseBasicBracketsTest(string input, int result)
         {
-          var result = LispParser.doMagic("(+ 1 5)");
+          var resultFromParser = LispParser.doMagic(input);
 
-          Assert.True(result == 6, "That should work!");
+          Assert.True(resultFromParser == result, "That should work!");
         }
     }
 }
