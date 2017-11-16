@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace lisp_in_cool
 {
-    class Program
+    public class LispParser 
     {
         static void Main(string[] args)
         {
@@ -16,7 +16,7 @@ namespace lisp_in_cool
             }
 
         }
-        private static List<string> parse(string input) {
+        public static List<string> parse(string input) {
            return new List<string>(); 
         }
     }

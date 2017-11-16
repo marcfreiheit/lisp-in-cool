@@ -1659,6 +1659,19 @@
         "build": {
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "lisp-in-cool/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "Microsoft.NETCore.App": "2.0.0"
+        },
+        "compile": {
+          "bin/placeholder/lisp-in-cool.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/lisp-in-cool.dll": {}
+        }
       }
     }
   },
@@ -5604,12 +5617,18 @@
         "xunit.runner.visualstudio.2.2.0.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "lisp-in-cool/1.0.0": {
+      "type": "project",
+      "path": "../lisp/lisp-in-cool.csproj",
+      "msbuildProject": "../lisp/lisp-in-cool.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NET.Test.Sdk >= 15.3.0-preview-20170628-02",
       "Microsoft.NETCore.App >= 2.0.0",
+      "lisp-in-cool >= 1.0.0",
       "xunit >= 2.2.0",
       "xunit.runner.visualstudio >= 2.2.0"
     ]
@@ -5641,7 +5660,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/marc/Documents/Development/GitHub/lisp-in-cool/lisp/lisp-in-cool.csproj": {
+              "projectPath": "/Users/marc/Documents/Development/GitHub/lisp-in-cool/lisp/lisp-in-cool.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
