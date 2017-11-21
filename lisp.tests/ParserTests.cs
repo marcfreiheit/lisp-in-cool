@@ -27,7 +27,6 @@ namespace lisp.tests
             var resultFromParser = LispParser.doMagic(input);
             
             Assert.True(resultFromParser == result, "That should work!");
-            // Assert.True(true);
         }
 
         [Theory]
