@@ -40,5 +40,21 @@ namespace lisp.tests
             Assert.True(resultFromParser1 == value);
             Assert.True(resultFromParser2 == (value + 5));
         }
+
+        [Theory]
+        [InlineData("x", "y", 5)]
+        [InlineData("p", "a", 21)]
+        [InlineData("l", "u", 39)]
+        [InlineData("t", "z", -23)]
+        public void NestedSetTests(string identifier1, string identifier2, int value) {
+            LispParser.doMagic(string.Format("(set! {0} {1})", identifier1, value));
+            LispParser.doMagic(string.Format("(set! {0} {1})", identifier2, identifier1));
+
+            var resultFromParser1 = LispParser.doMagic(string.Format("(+ {0} 0)", identifier1));
+            var resultFromParser2 = LispParser.doMagic(string.Format("(+ {0} 0)", identifier2));
+
+            Assert.True(resultFromParser1 == value);
+            Assert.True(resultFromParser2 == value);
+        }
     }
 }
